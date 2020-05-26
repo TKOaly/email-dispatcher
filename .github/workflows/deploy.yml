@@ -10,10 +10,11 @@ jobs:
     steps:
     - uses: actions/checkout@master
     # Well this step is necessary since serverless crashes if it can't find the sls offline plugin
-    - name: npm install
-      uses: actions/npm@master
+    - uses: actions/setup-node@v2-beta
       with:
-        args: install --dev
+        node-version: '12'
+    - name: Npm install
+      run: npm install --dev
     - name: serverless deploy
       uses: serverless/github-action@master
       with:
