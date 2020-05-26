@@ -9,11 +9,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
+    # Well this step is necessary since serverless crashes if it can't find the sls offline plugin
+    - name: npm install
+      uses: actions/npm@master
+      with:
+        args: install --dev
     - name: serverless deploy
       uses: serverless/github-action@master
       with:
         args: deploy
       env:
+        SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
         # or if using AWS creds directly
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
